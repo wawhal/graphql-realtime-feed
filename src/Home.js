@@ -61,7 +61,7 @@ const List = ({ tweets }) => {
               style={styles.tweet}
               key={tweet.id.toString()}
             >
-              <Text style={styles.authorName}> {'@' + tweet.author.name} </Text>
+              <Text style={styles.authorName}> {'@' + tweet.userByAuthorId.name} </Text>
               <Text style={styles.tweetText}>{tweet.text}</Text>
             </View>
           ))
@@ -133,7 +133,7 @@ const sampleTweets = [
   {
     id: 1,
     text: 'aello there 5 sdkjfka asdkjfkasfj jkasdkfj kasdjfk jakjk djakfj kasj kajsdfkj kaj kadjfk ajkfj kajkdj kajf jaksdjkj akjdkfj kasjfk sjk',
-    author: {
+    userByAuthorId: {
       id: 1,
       name: "author1"
     }
@@ -141,7 +141,7 @@ const sampleTweets = [
   {
     id: 2,
     text: 'aello there 5 sdkjfka asdkjfkasfj jkasdkfj kasdjfk jakjk djakfj kasj kajsdfkj kaj kadjfk ajkfj kajkdj kajf jaksdjkj akjdkfj kasjfk sjk',
-    author: {
+    userByAuthorId: {
       id: 2,
       name: "author2"
     }
@@ -149,7 +149,7 @@ const sampleTweets = [
   {
     id: 3,
     text: 'aello there 5 sdkjfka asdkjfkasfj jkasdkfj kasdjfk jakjk djakfj kasj kajsdfkj kaj kadjfk ajkfj kajkdj kajf jaksdjkj akjdkfj kasjfk sjk',
-    author: {
+    userByAuthorId: {
       id: 3,
       name: "author3"
     }
@@ -157,7 +157,7 @@ const sampleTweets = [
   {
     id: 4,
     text: 'aello there 5 sdkjfka asdkjfkasfj jkasdkfj kasdjfk jakjk djakfj kasj kajsdfkj kaj kadjfk ajkfj kajkdj kajf jaksdjkj akjdkfj kasjfk sjk',
-    author: {
+    userByAuthorId: {
       id: 4,
       name: "author4"
     }
@@ -165,7 +165,7 @@ const sampleTweets = [
   {
     id: 5,
     text: 'Hello there 5 sdkjfka asdkjfkasfj jkasdkfj kasdjfk jakjk djakfj kasj kajsdfkj kaj kadjfk ajkfj kajkdj kajf jaksdjkj akjdkfj kasjfk sjk',
-    author: {
+    userByAuthorId: {
       id: 5,
       name: "author5"
     }
@@ -173,7 +173,7 @@ const sampleTweets = [
   {
     id: 6,
     text: 'aello there 5 sdkjfka asdkjfkasfj jkasdkfj kasdjfk jakjk djakfj kasj kajsdfkj kaj kadjfk ajkfj kajkdj kajf jaksdjkj akjdkfj kasjfk sjk',
-    author: {
+    userByAuthorId: {
       id: 6,
       name: "author5"
     }
