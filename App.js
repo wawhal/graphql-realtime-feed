@@ -8,12 +8,15 @@ import { getMainDefinition } from 'apollo-utilities';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 
-const GRAPHQL_ENDPOINT = `byteconfreactnative.herokuapp.com/v1alpha1/graphql`;
+const GRAPHQL_ENDPOINT = `byteconfreactnativedemo.herokuapp.com/v1alpha1/graphql`;
 const httpLink = new HttpLink({
   uri: `https://${GRAPHQL_ENDPOINT}`,
 });
 const wsLink = new WebSocketLink({
-  uri: `wss://${GRAPHQL_ENDPOINT}`
+  uri: `wss://${GRAPHQL_ENDPOINT}`,
+  options: {
+    reconnect: true
+  }
 });
 const combinedLink = split(
   ({ query }) => {

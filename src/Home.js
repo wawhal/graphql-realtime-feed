@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, Keyboard } from 'react-native';
+import { Query, Mutation, Subscription } from 'react-apollo';
+import gql from 'graphql-tag';
 
 export default class Home extends React.Component {
   state = {
@@ -11,20 +13,75 @@ export default class Home extends React.Component {
     });
   }
   onPress = () => {
-    Alert.alert('Pressed');
+    Alert.alert('Pressed ');
     this.setState({ tweetText: ''});
   }
   render() {
     return (
       <View style={styles.container}>
-        <Input
-          onPress={this.onPress}
-          onChangeText={this.handleTextChange}
-          tweetText={this.state.tweetText}
-        />
-        <List
-          tweets={sampleTweets}
-        />
+        <Mutation
+          mutation={gql`
+            mutation {
+              insert_tweet (
+                objects: [
+                  {
+                    text: "${this.state.tweetText}",
+                    author_id: 1
+                  }
+                ]
+              ) {
+                returning {
+                  id
+                }
+              }
+            }
+          `}
+        >
+          {
+            (mutate, {data, error, loading}) => (
+              <Input
+                onPress={() => {
+                  mutate();
+                  this.setState({ ...this.state, tweetText: ''});
+                  Keyboard.dismiss();
+                }}
+                onChangeText={this.handleTextChange}
+                tweetText={this.state.tweetText}
+              />
+            )
+          }
+        </Mutation>
+        <Subscription
+          subscription={gql`
+            subscription {
+              tweet (
+                order_by: {
+                  id: desc
+                }
+              ){
+                id
+                text
+                author_id
+                userByauthorId {
+                  id
+                  name
+                }
+              }
+            } 
+          `}
+        >
+          {
+            ({data, error, loading}) => {
+              if (error) {
+                return <Text>Error</Text>;
+              }
+              if (loading) {
+                return <Text>Loading</Text>;
+              }
+              return <List tweets={data.tweet} />
+            }
+          }
+        </Subscription>
       </View>
     );
   }
@@ -50,6 +107,7 @@ const Input = ({ onChangeText, onPress, tweetText }) => {
 };
 
 const List = ({ tweets }) => {
+  console.log(tweets);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -61,7 +119,7 @@ const List = ({ tweets }) => {
               style={styles.tweet}
               key={tweet.id.toString()}
             >
-              <Text style={styles.authorName}> {'@' + tweet.userByAuthorId.name} </Text>
+              <Text style={styles.authorName}> {'@' + tweet.userByauthorId.name} </Text>
               <Text style={styles.tweetText}>{tweet.text}</Text>
             </View>
           ))
